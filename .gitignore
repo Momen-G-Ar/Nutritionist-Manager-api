@@ -1,0 +1,18 @@
+# Ignore Node.js build artifacts
+node_modules
+dist
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore TypeScript configuration file
+tsconfig.json
+
+# Ignore TypeScript declaration files
+*.d.ts
+
+# Ignore log files
+*.log
+
+# Ignore environment variables file
+.env

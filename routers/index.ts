@@ -1,1 +1,1 @@
-export { default as food } from './food';
+export { default as foodRouter } from './food';

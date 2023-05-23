@@ -1,9 +1,11 @@
-interface IFood {
-    id: string;
-    name: string;
-    image: string;
-    amount: number;
-    calories: number;
-}
+import mongoose from "mongoose";
+export namespace FoodNS {
 
-export { IFood };
+    export interface Food {
+        _id: mongoose.Schema.Types.ObjectId;
+        name: string;
+        image: string;
+        amount: number;
+        calories: number;
+    }
+}

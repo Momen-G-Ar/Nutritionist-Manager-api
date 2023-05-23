@@ -1,0 +1,1 @@
+export { FoodNS } from './food';

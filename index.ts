@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { foodRouter } from './routers/index';
 import mongoose from 'mongoose';
-import { logger, validateFood } from './middleware';
+import { logger, validateFood } from './middlewares';
 
 dotenv.config();
 const PORT = process.env.PORT;

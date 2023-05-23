@@ -1,4 +1,8 @@
 import express from "express";
+import { APIResponse } from "../classes";
+import { Food } from "../models";
+import { FoodNS } from "../types";
+import mongoose from "mongoose";
 const router = express.Router();
 
 // router.get('/', (req, res) => {
@@ -23,20 +27,27 @@ const router = express.Router();
 //     res.send(filteredFoodTable).end();
 // });
 
-// router.post('/', (req, res) => {
+router.post('/add-food', (req: express.Request, res: express.Response) => {
+    const newFood: FoodNS.Food = req.body;
 
-//     const newFood: FoodNS.Food = req.body;
-//     if (
-//         // foodTable.find(food => food.id === newFood._id)
-//         true
-//     ) {
-//         res.status(400).send('Invalid request payload');
-//         return;
-//     }
+    const addFood = new Food({
+        name: newFood.name.toLowerCase().trim(),
+        image: newFood.image,
+        amount: newFood.amount,
+        calories: newFood.calories,
+    });
 
-//     // foodTable.push(newFood);
-//     res.status(201).end();
-// });
+    addFood.save()
+        .then(() => {
+            res.status(201).send(new APIResponse(201, 'Food added successfully', {}));
+            return;
+        })
+        .catch((error: mongoose.Error) => {
+            console.error(error.message);
+            res.status(500).send(new APIResponse(500, 'Failed to add food', {}));
+            return;
+        });
+});
 
 
 

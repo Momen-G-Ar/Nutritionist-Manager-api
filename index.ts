@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { foodRouter } from './routers/index';
 import mongoose from 'mongoose';
-import { logger, validateFood } from './middlewares';
+import { logger } from './middlewares';
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -15,7 +15,7 @@ app.use(cors());
 
 app.use(logger);
 
-app.use('/food', validateFood, foodRouter);
+app.use('/food', foodRouter);
 
 app.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://127.0.0.1:${PORT}`);

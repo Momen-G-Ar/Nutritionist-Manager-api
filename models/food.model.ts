@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 
 const FoodSchema = new mongoose.Schema({
     name: {
@@ -17,9 +17,14 @@ const FoodSchema = new mongoose.Schema({
     calories: {
         type: 'Number',
         required: true,
-    }
+    },
+    addedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    date: Date
 });
 
-const Food = mongoose.model('food', FoodSchema);
+const Food = mongoose.model('Food', FoodSchema);
 
 export default Food;

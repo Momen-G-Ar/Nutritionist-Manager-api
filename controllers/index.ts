@@ -1,0 +1,1 @@
+export { default as foodController } from './food.controller';

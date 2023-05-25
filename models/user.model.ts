@@ -12,10 +12,16 @@ const UserSchema = new mongoose.Schema({
     },
     addedFoods: {
         type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Food'
     },
     addedPrograms: {
         type: [mongoose.Schema.Types.ObjectId],
-    }
+        // ref: ''
+    },
+    addedClients: {
+        type: [mongoose.Schema.Types.ObjectId],
+        // ref: ''
+    },
 });
 
 const User = mongoose.model('User', UserSchema);

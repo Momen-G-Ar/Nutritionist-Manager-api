@@ -11,7 +11,7 @@ const addFood = (newFood: FoodNS.Food) => {
         image: newFood.image,
         amount: newFood.amount,
         calories: newFood.calories,
-        date: new Date().toISOString(),
+        addDate: new Date().toISOString(),
     });
 
     return addFood.save()
@@ -26,7 +26,7 @@ const addFood = (newFood: FoodNS.Food) => {
 
 const getFood = (sorted: boolean) => {
 
-    return Food.find({}, {}, { sort: sorted ? { name: 1 } : { date: -1 } })
+    return Food.find({}, {}, { sort: sorted ? { name: 1 } : { addDate: -1 } })
         .then((foodTable) => {
             return new APIResponse(200, 'OK', { length: foodTable.length, foodTable: foodTable });
         })

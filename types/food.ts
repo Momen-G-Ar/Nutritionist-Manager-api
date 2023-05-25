@@ -8,6 +8,6 @@ export namespace FoodNS {
         amount: number;
         calories: number;
         addedBy: mongoose.Schema.Types.ObjectId;
-        addTime: Date;
+        addDate: Date;
     }
 }

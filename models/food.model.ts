@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 
 const FoodSchema = new mongoose.Schema({
     name: {
@@ -22,7 +22,7 @@ const FoodSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    date: Date
+    addDate: Date
 });
 
 const Food = mongoose.model('Food', FoodSchema);

@@ -4,7 +4,7 @@ import { Food } from "../models";
 import { FoodNS } from "../types";
 
 
-const addFood = (newFood: FoodNS.Food) => {
+const addFood = (newFood: FoodNS.Food): Promise<APIResponse> => {
 
     const addFood = new Food({
         name: newFood.name.toLowerCase().trim(),
@@ -24,7 +24,7 @@ const addFood = (newFood: FoodNS.Food) => {
         });
 };
 
-const getFood = (sorted: boolean) => {
+const getFood = (sorted: boolean): Promise<APIResponse> => {
 
     return Food.find({}, {}, { sort: sorted ? { name: 1 } : { addDate: -1 } })
         .then((foodTable) => {
@@ -36,7 +36,7 @@ const getFood = (sorted: boolean) => {
         });
 };
 
-const deleteFood = async (_id: string) => {
+const deleteFood = async (_id: string): Promise<APIResponse> => {
     const valid = mongoose.isValidObjectId(_id);
     if (_id && typeof _id === 'string' && valid) {
         return Food.deleteOne({ _id: _id })

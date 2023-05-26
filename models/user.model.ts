@@ -16,11 +16,11 @@ const UserSchema = new mongoose.Schema({
     },
     addedPrograms: {
         type: [mongoose.Schema.Types.ObjectId],
-        // ref: ''
+        ref: 'Program'
     },
     addedClients: {
         type: [mongoose.Schema.Types.ObjectId],
-        // ref: ''
+        ref: 'Client'
     },
 });
 

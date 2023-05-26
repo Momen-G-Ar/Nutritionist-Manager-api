@@ -1,5 +1,5 @@
 import { APIResponse } from "../classes";
-import { UserNS } from "../types/user";
+import { UserNS } from "../types";
 
 const addUser = (user: UserNS.User): Promise<APIResponse> | APIResponse => {
     // must hash password

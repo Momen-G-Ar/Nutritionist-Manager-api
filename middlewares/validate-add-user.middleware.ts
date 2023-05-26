@@ -5,7 +5,7 @@ import { User } from "../models";
 
 const validateAddUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (req.headers['content-type'] !== 'application/json') {
-        res.status(400).send('Invalid content type');
+        res.status(400).send(new APIResponse(400, 'Invalid content type', {}));
         return;
     }
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { APIResponse } from '../classes';
+import { APIResponse } from '../../classes';
 
 const validateGetUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (req.headers['content-type'] !== 'application/json') {

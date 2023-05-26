@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import { APIResponse } from "../classes";
-import { User } from "../models";
+import { APIResponse } from "../../classes";
+import { User } from "../../models";
 
 const validateAddUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (req.headers['content-type'] !== 'application/json') {

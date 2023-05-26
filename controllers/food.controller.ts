@@ -11,6 +11,7 @@ const addFood = (newFood: FoodNS.Food): Promise<APIResponse> => {
         image: newFood.image,
         amount: newFood.amount,
         calories: newFood.calories,
+        addedBy: newFood.addedBy,
         addDate: new Date().toISOString(),
     });
 
@@ -24,9 +25,9 @@ const addFood = (newFood: FoodNS.Food): Promise<APIResponse> => {
         });
 };
 
-const getFood = (sorted: boolean): Promise<APIResponse> => {
+const getFood = (userId: string, sorted: boolean): Promise<APIResponse> => {
 
-    return Food.find({}, {}, { sort: sorted ? { name: 1 } : { addDate: -1 } })
+    return Food.find({ addedBy: userId }, {}, { sort: sorted ? { name: 1 } : { addDate: -1 } })
         .then((foodTable) => {
             return new APIResponse(200, 'OK', { length: foodTable.length, foodTable: foodTable });
         })

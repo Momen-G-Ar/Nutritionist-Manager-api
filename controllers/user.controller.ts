@@ -17,8 +17,14 @@ const addUser = async (user: UserNS.User): Promise<APIResponse> => {
     });
 
     return newUser.save()
-        .then(() => {
-            return new APIResponse(201, 'The user is added successfully', {});
+        .then((user) => {
+            return new APIResponse(201, 'The user is added successfully', {
+                _id: user._id,
+                username: user.username,
+                addedFoods: user.addedFoods,
+                addedPrograms: user.addedPrograms,
+                addedClients: user.addedClients,
+            });
         })
         .catch((error: mongoose.Error) => {
             console.error(error.message);

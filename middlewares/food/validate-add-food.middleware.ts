@@ -1,20 +1,22 @@
 import express from "express";
-import { APIResponse } from "../classes";
-import { Food } from "../models";
+import { APIResponse } from "../../classes";
+import { Food, User } from "../../models";
 import mongoose from "mongoose";
+import { FoodNS } from "../../types";
 
-const validateFood = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+const validateAddFood = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (req.headers['content-type'] !== 'application/json') {
         res.status(400).send(new APIResponse(400, 'Invalid content type', {}));
         return;
     }
 
-    const newFood = req.body;
+    const newFood: FoodNS.Food = req.body;
     let notValidFood: boolean = false;
     notValidFood ||= !newFood.name || typeof newFood.name !== 'string';
     notValidFood ||= !newFood.image || typeof newFood.image !== 'string';
     notValidFood ||= !newFood.amount || typeof newFood.amount !== 'number';
     notValidFood ||= !newFood.calories || typeof newFood.calories !== 'number';
+    notValidFood ||= !newFood.addedBy || typeof newFood.addedBy !== 'string';
 
 
     if (notValidFood) {
@@ -28,8 +30,19 @@ const validateFood = (req: express.Request, res: express.Response, next: express
                 res.status(400).send(new APIResponse(400, 'Duplicate food name', {}));
                 return;
             }
-            else
-                next();
+            else {
+                User.findById(newFood.addedBy)
+                    .then((user) => {
+                        if (user === null)
+                            res.status(400).send(new APIResponse(400, 'Invalid user', {}));
+                        else
+                            next();
+                    })
+                    .catch((error: mongoose.Error) => {
+                        res.status(500).send(new APIResponse(500, 'Internal server error', {}));
+                        console.error(error.message);
+                    });
+            }
         })
         .catch((error: mongoose.Error) => {
             res.status(500).send(new APIResponse(500, 'Internal server error', {}));
@@ -38,4 +51,4 @@ const validateFood = (req: express.Request, res: express.Response, next: express
         });
 };
 
-export default validateFood;
+export default validateAddFood;

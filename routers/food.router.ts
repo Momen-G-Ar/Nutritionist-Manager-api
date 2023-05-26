@@ -2,14 +2,15 @@ import express from "express";
 import { APIResponse } from "../classes";
 import { FoodNS } from "../types";
 import { foodController } from "../controllers";
-import { validateFood } from "../middlewares";
+import { validateAddFood } from "../middlewares";
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const sorted = req.query.sorted ? Boolean(req.query.sorted) : false;
+    const sorted: boolean = req.query.sorted ? Boolean(req.query.sorted) : false;
+    const userId: string = req.body._id;
     try {
-        const getFood = await foodController.getFood(sorted);
+        const getFood = await foodController.getFood(userId, sorted);
         res.status(getFood.status).send(getFood);
     } catch (error) {
         console.error(error);
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', validateFood, async (req: express.Request, res: express.Response) => {
+router.post('/', validateAddFood, async (req: express.Request, res: express.Response) => {
     try {
         const addFood = await foodController.addFood(req.body as FoodNS.Food);
         res.status(addFood.status).send(addFood);

@@ -2,7 +2,7 @@ import express from "express";
 import { APIResponse } from "../classes";
 import { FoodNS } from "../types";
 import { foodController } from "../controllers";
-import { validateAddFood } from "../middlewares";
+import { validateAddFood, validateEditFood } from "../middlewares";
 
 const router = express.Router();
 
@@ -34,6 +34,17 @@ router.delete('/', async (req: express.Request, res: express.Response) => {
     try {
         const deleteFood = await foodController.deleteFood(userId, foodId);
         res.status(deleteFood.status).send(deleteFood);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(new APIResponse(500, 'Failed', {}));
+    }
+});
+
+router.put('/', validateEditFood, async (req: express.Request, res: express.Response) => {
+    const newFood: FoodNS.Food = req.body;
+    try {
+        const updateFood = await foodController.updateFood(newFood);
+        res.status(updateFood.status).send(updateFood);
     } catch (error) {
         console.error(error);
         res.status(500).send(new APIResponse(500, 'Failed', {}));

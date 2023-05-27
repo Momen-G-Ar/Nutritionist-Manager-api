@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import { APIResponse } from "../classes";
-import { Food } from "../models";
+import { Food, User } from "../models";
 import { FoodNS } from "../types";
 
 
-const addFood = (newFood: FoodNS.Food): Promise<APIResponse> => {
+const addFood = async (newFood: FoodNS.Food): Promise<APIResponse> => {
 
     const addFood = new Food({
         name: newFood.name.toLowerCase().trim(),
@@ -15,14 +15,24 @@ const addFood = (newFood: FoodNS.Food): Promise<APIResponse> => {
         addDate: new Date().toISOString(),
     });
 
-    return addFood.save()
-        .then(() => {
-            return new APIResponse(201, 'Food added successfully', {});
-        })
-        .catch((error: mongoose.Error) => {
-            console.error(error.message);
-            return new APIResponse(500, 'Failed to add food', {});
-        });
+
+    const session: mongoose.ClientSession = await mongoose.startSession();
+    try {
+
+        session.startTransaction();
+
+        const food = await addFood.save();
+        await User.updateOne({ _id: newFood.addedBy }, { $addToSet: { addedFoods: food._id } }, {});
+
+        await session.commitTransaction();
+
+        return new APIResponse(201, 'Food added successfully', {});
+    } catch (error) {
+        console.error(error);
+        return new APIResponse(500, 'Internal server error', {});
+    } finally {
+        await session.endSession();
+    }
 };
 
 const getFood = (userId: string, sorted: boolean): Promise<APIResponse> => {

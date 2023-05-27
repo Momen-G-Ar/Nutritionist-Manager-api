@@ -23,7 +23,10 @@ const FoodSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    addDate: Date
+    addDate: {
+        type: Date,
+        required: true
+    }
 });
 
 const Food = mongoose.model('Food', FoodSchema);

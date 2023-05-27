@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     const sorted: boolean = req.query.sorted ? Boolean(req.query.sorted) : false;
-    const userId: string = req.body._id;
+    const userId: string = req.query.userId ? (req.query.userId as string) : '';
     try {
         const getFood = await foodController.getFood(userId, sorted);
         res.status(getFood.status).send(getFood);

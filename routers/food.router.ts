@@ -29,9 +29,10 @@ router.post('/', validateAddFood, async (req: express.Request, res: express.Resp
 });
 
 router.delete('/', async (req: express.Request, res: express.Response) => {
-    const _id = req.body._id;
+    const foodId = req.query.foodId ? String(req.query.foodId) : '';
+    const userId = req.query.userId ? String(req.query.userId) : '';
     try {
-        const deleteFood = await foodController.deleteFood(_id);
+        const deleteFood = await foodController.deleteFood(userId, foodId);
         res.status(deleteFood.status).send(deleteFood);
     } catch (error) {
         console.error(error);

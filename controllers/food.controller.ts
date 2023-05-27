@@ -15,23 +15,13 @@ const addFood = async (newFood: FoodNS.Food): Promise<APIResponse> => {
         addDate: new Date().toISOString(),
     });
 
-
-    const session: mongoose.ClientSession = await mongoose.startSession();
     try {
-
-        session.startTransaction();
-
         const food = await addFood.save();
-        await User.updateOne({ _id: newFood.addedBy }, { $addToSet: { addedFoods: food._id } }, {});
-
-        await session.commitTransaction();
-
-        return new APIResponse(201, 'Food added successfully', {});
+        await User.updateOne({ _id: newFood.addedBy }, { $addToSet: { addedFoods: food._id } });
+        return new APIResponse(201, 'Food added successfully', food);
     } catch (error) {
         console.error(error);
         return new APIResponse(500, 'Internal server error', {});
-    } finally {
-        await session.endSession();
     }
 };
 
@@ -47,17 +37,17 @@ const getFood = (userId: string, sorted: boolean): Promise<APIResponse> => {
         });
 };
 
-const deleteFood = async (_id: string): Promise<APIResponse> => {
-    const valid = mongoose.isValidObjectId(_id);
-    if (_id && typeof _id === 'string' && valid) {
-        return Food.deleteOne({ _id: _id })
-            .then(() => {
-                return new APIResponse(200, 'OK', {});
-            })
-            .catch((error: mongoose.Error) => {
-                console.error(error.message);
-                return new APIResponse(500, 'Internal server error', {});
-            });
+const deleteFood = async (userId: string, foodId: string): Promise<APIResponse> => {
+    const valid = mongoose.isValidObjectId(foodId);
+    if (foodId && typeof foodId === 'string' && valid) {
+        try {
+            await Food.deleteOne({ _id: foodId });
+            await User.updateOne({ _id: userId }, { $pull: { addedFoods: foodId } });
+            return new APIResponse(200, 'OK', {});
+        } catch (error) {
+            console.error(error);
+            return new APIResponse(500, 'Internal server error', {});
+        }
     }
     else {
         return new APIResponse(400, 'Invalid payload', {});

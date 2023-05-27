@@ -1,12 +1,12 @@
 import express from 'express';
-import { validateAddUser, validateGetUser } from '../middlewares';
+import { validateAddUser,  validateCheckUser } from '../middlewares';
 import { UserNS } from '../types/user';
 import { userController } from '../controllers';
 import { APIResponse } from '../classes';
 
 const router = express.Router();
 
-router.post('/', validateAddUser, async (req: express.Request, res: express.Response) => {
+router.post('/add', validateAddUser, async (req: express.Request, res: express.Response) => {
     const newUser: UserNS.User = req.body;
     try {
         const addUser = await userController.addUser(newUser);
@@ -17,7 +17,7 @@ router.post('/', validateAddUser, async (req: express.Request, res: express.Resp
     }
 });
 
-router.get('/', validateGetUser, async (req: express.Request, res: express.Response) => {
+router.post('/', validateCheckUser, async (req: express.Request, res: express.Response) => {
     const user: UserNS.User = req.body;
     try {
         const getUser = await userController.getUser(user);

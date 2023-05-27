@@ -1,7 +1,7 @@
 import express from 'express';
 import { APIResponse } from '../../classes';
 
-const validateGetUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+const validateCheckUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (req.headers['content-type'] !== 'application/json') {
         res.status(400).send(new APIResponse(400, 'Invalid content type', {}));
         return;
@@ -19,4 +19,4 @@ const validateGetUser = (req: express.Request, res: express.Response, next: expr
     next();
 };
 
-export default validateGetUser;
+export default validateCheckUser;

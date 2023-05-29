@@ -55,7 +55,14 @@ const deleteFood = async (userId: string, foodId: string): Promise<APIResponse> 
 };
 
 const updateFood = async (food: FoodNS.Food): Promise<APIResponse> => {
-    return Food.findByIdAndUpdate(food._id, food)
+    return Food.findByIdAndUpdate(food._id, {
+        name: food.name,
+        image: food.image,
+        amount: food.amount,
+        calories: food.calories,
+        addedBy: food.addedBy,
+        addDate: new Date().toISOString()
+    }, { new: true })
         .then((newFood) => {
             return new APIResponse(200, 'Food edited successfully', { food: newFood });
         })

@@ -26,15 +26,23 @@ const validateEditFood = async (req: express.Request, res: express.Response, nex
     }
 
     try {
-        const food = await Food.find({ _id: newFood._id });
+        const newFoodId = newFood._id;
+        const newFoodName = newFood.name.toLowerCase().trim();
+
+        const food = await Food.findOne({
+            $and: [
+                { $nor: [{ _id: newFoodId }] },
+                { name: newFoodName }
+            ]
+        });
+
         if (food) {
+            res.status(400).send(new APIResponse(400, 'Duplicate food name', {}));
+            return;
+        }
+        else {
             const user = await User.findById(newFood.addedBy);
             if (user) {
-                const findIfNameDuplication = await Food.findOne({ name: newFood.name });
-                if (findIfNameDuplication) {
-                    res.status(400).send(new APIResponse(400, 'Duplicate food name', {}));
-                    return;
-                }
                 next();
             }
             else {

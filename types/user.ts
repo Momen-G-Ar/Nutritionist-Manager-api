@@ -6,7 +6,7 @@ export namespace UserNS {
         username: String;
         password: String;
         clients: [mongoose.Schema.Types.ObjectId];
-        programs: [mongoose.Schema.Types.ObjectId];
-        foods: [mongoose.Schema.Types.ObjectId];
+        addedPrograms: [mongoose.Schema.Types.ObjectId];
+        addedFoods: [mongoose.Schema.Types.ObjectId];
     }
 }

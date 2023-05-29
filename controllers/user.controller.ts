@@ -23,7 +23,6 @@ const addUser = async (user: UserNS.User): Promise<APIResponse> => {
                 username: user.username,
                 addedFoods: user.addedFoods,
                 addedPrograms: user.addedPrograms,
-                addedClients: user.addedClients,
             });
         })
         .catch((error: mongoose.Error) => {

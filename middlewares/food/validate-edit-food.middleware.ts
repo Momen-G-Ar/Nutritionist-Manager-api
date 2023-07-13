@@ -1,7 +1,6 @@
 import express from "express";
 import { APIResponse } from "../../classes";
 import { Food, User } from "../../models";
-import mongoose from "mongoose";
 import { FoodNS } from "../../types";
 
 const validateEditFood = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -28,14 +27,12 @@ const validateEditFood = async (req: express.Request, res: express.Response, nex
     try {
         const newFoodId = newFood._id;
         const newFoodName = newFood.name.toLowerCase().trim();
-
         const food = await Food.findOne({
             $and: [
                 { $nor: [{ _id: newFoodId }] },
                 { name: newFoodName }
             ]
         });
-
         if (food) {
             res.status(400).send(new APIResponse(400, 'Duplicate food name', {}));
             return;

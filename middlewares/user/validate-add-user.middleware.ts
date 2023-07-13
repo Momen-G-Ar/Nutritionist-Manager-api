@@ -8,7 +8,6 @@ const validateAddUser = (req: express.Request, res: express.Response, next: expr
         res.status(400).send(new APIResponse(400, 'Invalid content type', {}));
         return;
     }
-
     const newUser = req.body;
     let notValidUser: boolean = false;
     notValidUser ||= !newUser.username || typeof newUser.username !== 'string';

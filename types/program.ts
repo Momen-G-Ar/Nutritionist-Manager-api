@@ -18,5 +18,6 @@ export namespace ProgramNS {
             friday: [mongoose.Schema.Types.ObjectId];
             saturday: [mongoose.Schema.Types.ObjectId];
         };
+        addedBy: mongoose.Schema.Types.ObjectId
     }
 }

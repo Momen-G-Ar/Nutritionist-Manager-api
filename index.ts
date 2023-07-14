@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { foodRouter, userRouter } from './routers/index';
+import { foodRouter, programRouter, userRouter } from './routers/index';
 import mongoose from 'mongoose';
 import { logger } from './middlewares';
 
@@ -17,6 +17,7 @@ app.use(logger);
 
 app.use('/food', foodRouter);
 app.use('/user', userRouter);
+app.use('/program', programRouter);
 
 app.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://127.0.0.1:${PORT}`);

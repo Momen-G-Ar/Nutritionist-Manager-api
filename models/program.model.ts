@@ -75,6 +75,10 @@ const programSchema = new mongoose.Schema({
         },
         required: true,
     },
+    addedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 const Program = mongoose.model('Program', programSchema);

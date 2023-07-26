@@ -40,6 +40,16 @@ const getPrograms = async (searchTerms?: string) => {
     }
     try {
         const getPrograms = await Program.find({ ...filter })
+            .populate(
+                [
+                    'days.saturday',
+                    'days.sunday',
+                    'days.monday',
+                    'days.tuesday',
+                    'days.wednesday',
+                    'days.thursday',
+                    'days.friday'
+                ])
         return new APIResponse(200, 'OK', { length: getPrograms.length, value: getPrograms })
     } catch (error) {
         console.error(error);

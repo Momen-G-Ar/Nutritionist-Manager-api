@@ -31,6 +31,22 @@ const addProgram = async (program: ProgramNS.Program) => {
 
 };
 
+const getPrograms = async (searchTerms?: string) => {
+    searchTerms = searchTerms || '';
+    const regex: RegExp = new RegExp(searchTerms, 'i');
+    const filter = {
+        'client.name': regex,
+    }
+    try {
+        const getPrograms = await Program.find({ ...filter })
+        return new APIResponse(200, 'OK', { length: getPrograms.length, value: getPrograms })
+    } catch (error) {
+        console.error(error);
+        return new APIResponse(500, 'Internal Server Error', {})
+    }
+}
+
 export default {
     addProgram,
+    getPrograms,
 };

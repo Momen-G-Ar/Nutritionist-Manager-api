@@ -16,4 +16,15 @@ router.post('/addProgram', async (req: express.Request, res: express.Response) =
     }
 })
 
+router.get('/getPrograms', async (req: express.Request, res: express.Response) => {
+    const searchTerms = (req.query.searchTerms || '') as string;
+    try {
+        const getPrograms = await programController.getPrograms(searchTerms);
+        return res.status(getPrograms.status).send(getPrograms);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(new APIResponse(500, 'Internal Server Error', {}))
+    }
+})
+
 export default router;

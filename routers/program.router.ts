@@ -27,4 +27,15 @@ router.get('/getPrograms', async (req: express.Request, res: express.Response) =
     }
 })
 
+router.delete('/deleteProgram/:programId', async (req: express.Request, res: express.Response) => {
+    const programId = (req.params.programId || '') as string;
+    try {
+        const deleteProgram = await programController.deleteProgram(programId);
+        return res.status(deleteProgram.status).send(deleteProgram);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(new APIResponse(500, 'Internal Server Error', {}))
+    }
+})
+
 export default router;

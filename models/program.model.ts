@@ -75,6 +75,53 @@ const programSchema = new mongoose.Schema({
         },
         required: true,
     },
+    status: {
+        type: {
+            sunday: {
+                type: [{ meals: Number, calories: Number }],
+                default: [],
+                required: true,
+                ref: 'Food',
+            },
+            monday: {
+                type: [{ meals: Number, calories: Number }],
+                default: [],
+                required: true,
+                ref: 'Food',
+            },
+            tuesday: {
+                type: [{ meals: Number, calories: Number }],
+                default: [],
+                required: true,
+                ref: 'Food',
+            },
+            wednesday: {
+                type: [{ meals: Number, calories: Number }],
+                default: [],
+                required: true,
+                ref: 'Food',
+            },
+            thursday: {
+                type: [{ meals: Number, calories: Number }],
+                default: [],
+                required: true,
+                ref: 'Food',
+            },
+            friday: {
+                type: [{ meals: Number, calories: Number }],
+                default: [],
+                required: true,
+                ref: 'Food',
+            },
+            saturday: {
+                type: [{ meals: Number, calories: Number }],
+                default: [],
+                required: true,
+                ref: 'Food',
+            },
+        },
+        required: true,
+    },
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

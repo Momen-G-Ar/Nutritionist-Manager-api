@@ -7,6 +7,7 @@ import { APIResponse } from "../classes";
 const addProgram = async (program: ProgramNS.Program) => {
     const newProgram = new Program({
         client: { ...program.client },
+        status: { ...program.status },
         days: { ...program.days },
         addedBy: program.addedBy,
     });
@@ -46,7 +47,18 @@ const getPrograms = async (searchTerms?: string) => {
     }
 }
 
+const deleteProgram = async (programId: string) => {
+    try {
+        const deleteProgram = await Program.deleteOne({ _id: programId });
+        return new APIResponse(200, 'The programs is deleted', deleteProgram);
+    } catch (error) {
+        console.error(error);
+        return new APIResponse(500, 'Internal Server Error', {});
+    }
+}
+
 export default {
     addProgram,
     getPrograms,
+    deleteProgram,
 };
